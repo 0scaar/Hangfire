@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+builder.Services.AddScoped<INoticationRepository, NoticationRepository>();
 
 var conn = builder.Configuration.GetConnectionString("HangfireConnection");
 
@@ -29,6 +30,8 @@ builder.Services.AddHangfire(configuration => configuration
         })
 );
 
+// En que intervalo consultara los jobs en la base de datos, por defectos es 15 minutos
+//builder.Services.AddHangfireServer(options => options.SchedulePollingInterval = TimeSpan.FromSeconds(1));
 builder.Services.AddHangfireServer();
 
 var app = builder.Build();
@@ -45,6 +48,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseHangfireDashboard();
+
+//Todos los dias a las 6 de la mañana
+RecurringJob.AddOrUpdate<IPersonRepository>("getAllPeople", service => service.GetAllPeople(), "0 6 * * *");
 
 app.MapControllers();
 

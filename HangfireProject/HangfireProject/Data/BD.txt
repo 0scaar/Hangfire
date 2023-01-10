@@ -12,5 +12,9 @@ as
 select * from [dbo].[Person] where FullName like '%' + @name + '%'
 go;
 
+create procedure GetAllPeople
+as
+select * from [dbo].[Person]
+go;
 
 select * from Person;

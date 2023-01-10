@@ -8,6 +8,26 @@ namespace HangfireProject.Infrastructure.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
+        public List<Person> GetAllPeople()
+        {
+            var people = new List<Person>();
+
+            using (var context = new HfContext())
+            {
+                var result = context.Persons
+                    .FromSqlRaw("GetAllPeople")
+                    .ToList();
+
+                result.ForEach(p =>
+                {
+                    var person = new Person(p.Id, p.FullName, p.Email);
+                    people.Add(person);
+                });
+
+                return people;
+            }
+        }
+
         public List<Person> GetPeople(string name)
         {
             var people = new List<Person>();
