@@ -27,7 +27,6 @@ namespace HangfireProject.Controllers
 
             people.ForEach(person =>
             {
-                //backgroundJobClient.Enqueue(() => Console.WriteLine(person));
                 backgroundJobClient.Enqueue<INoticationRepository>(not => not.SendEmail(person.Email));
             });
 
