@@ -1,4 +1,6 @@
 using Hangfire;
+using HangfireProject.Application.Repository;
+using HangfireProject.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 
 var conn = builder.Configuration.GetConnectionString("HangfireConnection");
 

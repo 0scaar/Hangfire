@@ -1,0 +1,16 @@
+﻿CREATE TABLE [dbo].[Person]
+(
+	[Id] INT Identity(1,1) PRIMARY KEY,
+	FullName varchar(100) not null,
+	Email varchar(100) not null
+)
+
+
+create procedure GetPersonByName
+@name varchar(100)
+as
+select * from [dbo].[Person] where FullName like '%' + @name + '%'
+go;
+
+
+select * from Person;
