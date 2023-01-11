@@ -50,7 +50,11 @@ app.UseAuthorization();
 app.UseHangfireDashboard();
 
 //Todos los dias a las 6 de la mañana
-RecurringJob.AddOrUpdate<IPersonRepository>("getAllPeople", service => service.GetAllPeople(), "0 6 * * *");
+RecurringJob.AddOrUpdate<IPersonRepository>(
+        "getAllPeople", 
+        service => service.GetAllPeople(), 
+        "0 6 * * *",
+        TimeZoneInfo.Local);
 
 app.MapControllers();
 
